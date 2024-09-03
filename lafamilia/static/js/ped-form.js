@@ -139,9 +139,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 alert('Pedido creado exitosamente');
-                location.reload;
-                // Aquí podrías redirigir a otra página o resetear el formulario
-            },
+                window.location.reload();
+            }
+            ,
             error: function(xhr) {
                 console.error('Error al crear el pedido:', xhr);
                 // Accede a responseJSON para obtener el contenido del error
@@ -154,7 +154,7 @@ $(document).ready(function() {
 
     // Cancelar el pedido
     $('#cancelar-pedido').click(function() {
-        location.reload;
+        window.location.reload();
         // Aquí podríamos resetear el formulario o redirigir a otra página
     });
 });
