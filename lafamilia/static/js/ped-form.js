@@ -126,7 +126,6 @@ $(document).ready(function() {
             }
         });
     
-        console.log(pedidoData);
         return enviarPedidoAlBackend(pedidoData);
 
     
@@ -140,6 +139,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 alert('Pedido creado exitosamente');
+                location.reload;
                 // Aquí podrías redirigir a otra página o resetear el formulario
             },
             error: function(xhr) {
@@ -154,6 +154,7 @@ $(document).ready(function() {
 
     // Cancelar el pedido
     $('#cancelar-pedido').click(function() {
+        location.reload;
         // Aquí podríamos resetear el formulario o redirigir a otra página
     });
 });
