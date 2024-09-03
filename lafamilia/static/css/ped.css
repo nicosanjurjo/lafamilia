@@ -1,0 +1,43 @@
+.superior {
+    display: flex;
+    justify-content:space-around;
+    margin-bottom: 15px;
+}
+
+.alta{
+    height: 40px;
+    margin-top: 20px;
+}
+
+.busqueda button[type="submit"] {
+    width: 74%;
+    margin-top: 10px;
+}
+
+.btn-group-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.btn-group-scroll .btn {
+    display: inline-block;
+    white-space: normal;
+}
+
+#pedido-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#pedido-table th {
+    background: #f8f8f8;
+}
+
+#pedido-table td {
+    border-top: 1px solid #e9ecef;
+}
+
+#pedido-table .cantidad-input {
+    width: 40px;
+}

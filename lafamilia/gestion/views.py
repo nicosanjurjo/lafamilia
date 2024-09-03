@@ -1,0 +1,171 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
+from .models import Producto, Vendedor, Cliente, Pedido, PedidoProducto
+from .forms import ProductoForm, VendedorForm, ClienteForm
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
+from datetime import datetime, timedelta
+
+class ProductoListView(ListView):
+    model = Producto
+    template_name = 'gestion/prod.html'
+    context_object_name = 'productos'
+
+class ProductoCreateView(CreateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'gestion/prod-form.html'
+    success_url = reverse_lazy('Productos')
+
+class ProductoUpdateView(UpdateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'gestion/prod-form.html'
+    success_url = reverse_lazy('Productos')
+
+class ProductoDeleteView(DeleteView):
+    model = Producto
+    template_name = 'gestion/prod-delete.html'
+    success_url = reverse_lazy('Productos')
+
+class VendedorListView(ListView):
+    model = Vendedor
+    template_name = 'gestion/vend.html'
+    context_object_name = 'vendedores'
+
+class VendedorCreateView(CreateView):
+    model = Vendedor
+    form_class = VendedorForm
+    template_name = 'gestion/vend-form.html'
+    success_url = reverse_lazy('Vendedores')
+
+class VendedorUpdateView(UpdateView):
+    model = Vendedor
+    form_class = VendedorForm
+    template_name = 'gestion/vend-form.html'
+    success_url = reverse_lazy('Vendedores')
+
+class VendedorDeleteView(DeleteView):
+    model = Vendedor
+    template_name = 'gestion/vend-delete.html'
+    success_url = reverse_lazy('Vendedores')
+
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'gestion/cli.html'
+    context_object_name = 'clientes'
+
+class ClienteCreateView(CreateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'gestion/cli-form.html'
+    success_url = reverse_lazy('Clientes')
+
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'gestion/cli-form.html'
+    success_url = reverse_lazy('Clientes')
+
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'gestion/cli-delete.html'
+    success_url = reverse_lazy('Clientes')
+
+def lista_pedidos(request):
+    pedidos = Pedido.objects.all().order_by('-fecha')
+    return render(request, 'gestion/ped.html', {'pedidos': pedidos})
+
+def ver_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    productos_pedido = PedidoProducto.objects.filter(pedido=pedido)
+    
+    context = {
+        'pedido': pedido,
+        'productos_pedido': productos_pedido,
+    }
+    
+    return render(request, 'gestion/ped-detalle.html', context)
+
+def form_pedido_gestion(request):
+    return render(request, 'gestion/ped-form.html')
+
+def pedidos_por_fecha(request):
+    fecha_inicio_str = request.GET.get('fecha_inicio')
+    fecha_fin_str = request.GET.get('fecha_fin')
+
+    if fecha_inicio_str:
+        fecha_inicio = timezone.make_aware(datetime.strptime(fecha_inicio_str, '%Y-%m-%d'))
+    if fecha_fin_str:
+        fecha_fin = timezone.make_aware(datetime.strptime(fecha_fin_str, '%Y-%m-%d'))
+        fecha_fin = fecha_fin + timedelta(days=1) - timedelta(seconds=1)  # Extender hasta el final del día
+
+    pedidos = Pedido.objects.filter(fecha__range=[fecha_inicio, fecha_fin])
+    print(fecha_fin, fecha_inicio)
+    print(pedidos)
+    
+    return render(request, 'gestion/ped-imprimir.html', {'pedidos': pedidos})
+
+
+@csrf_exempt
+def actualizar_pedido(request, pedido_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            pedido = Pedido.objects.get(id=pedido_id)
+            productos_data = data['productos']
+            nuevo_total = data['total']  # Total calculado desde el frontend
+
+            # Sumamos el nuevo total al total existente
+            pedido.total += nuevo_total
+
+            errores_stock = []
+            
+            # Recorrer cada producto enviado para la actualización
+            for item in productos_data:
+                producto = Producto.objects.get(id=item['producto_id'])
+                cantidad = item['cantidad']
+                precio_unitario = item['precio_unitario']
+
+                # Verificar si el producto ya está en el pedido
+                pedido_producto, creado = PedidoProducto.objects.get_or_create(
+                    pedido=pedido,
+                    producto=producto,
+                    defaults={'cantidad': cantidad, 'precio_unitario': precio_unitario}
+                )
+
+                if creado:
+                    # Si es un nuevo producto en el pedido, simplemente descontamos el stock
+                    if producto.stock >= cantidad:
+                        producto.stock -= cantidad
+                        producto.save()
+                    else:
+                        errores_stock.append(f"{producto.nombre} - {producto.marca}. Disponible: {producto.stock}, solicitado: {cantidad}.")
+                else:
+                    # Si ya existe, actualizamos la cantidad y descontamos la nueva cantidad
+                    cantidad_total = pedido_producto.cantidad + cantidad
+
+                    if producto.stock >= cantidad:
+                        producto.stock -= cantidad
+                        producto.save()
+                        pedido_producto.cantidad = cantidad_total
+                        pedido_producto.precio_unitario = precio_unitario
+                        pedido_producto.save()
+                    else:
+                        errores_stock.append(f"{producto.nombre} - {producto.marca}. Disponible: {producto.stock}, solicitado: {cantidad}.")
+            
+            # Si hay errores de stock, devolvemos los errores sin eliminar productos ya existentes
+            if errores_stock:
+                return JsonResponse({'errors': errores_stock}, status=400)
+
+            # Actualizar el total del pedido
+            pedido.save()
+
+            return JsonResponse({'message': 'Pedido actualizado exitosamente'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    
+    return JsonResponse({'error': 'Método no permitido'}, status=405)

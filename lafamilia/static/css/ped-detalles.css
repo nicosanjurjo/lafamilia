@@ -1,0 +1,70 @@
+/* Estilo general para la página de detalles del pedido */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Título principal */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Sección de información del pedido */
+p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Encabezados de sección */
+h2, h3 {
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Lista de productos */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Total del pedido */
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 20px;
+}
+
+/* Botones de acciones */
+a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #0056b3;
+}
