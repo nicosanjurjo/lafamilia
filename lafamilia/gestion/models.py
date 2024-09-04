@@ -22,6 +22,7 @@ class Cliente(models.Model):
     nombre=models.CharField(max_length=30)
     zona=models.CharField(max_length=30)
     direccion=models.CharField(max_length=30)
+    telefono=models.IntegerField(null=True)
     
     def __str__(self):
         return self.nombre

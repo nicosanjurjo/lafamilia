@@ -18,6 +18,7 @@
             <th>Zona</th>
             <th>Nombre</th>
             <th>Direccion</th>
+            <th>Teléfono</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -28,6 +29,7 @@
                 <td>{{ cliente.zona }}</td>
                 <td>{{ cliente.nombre }}</td>
                 <td>{{ cliente.direccion }}</td>
+                <td>{{ cliente.telefono }}</td>
                 <td>
                     <a class="btn btn-primary" href="{% url 'Cli-Edit' cliente.pk %}">Editar</a>
                     |
