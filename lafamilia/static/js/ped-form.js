@@ -28,11 +28,18 @@ $(document).ready(function() {
                     </tr>
                 `);
             });
+            $('#productos-table').DataTable({
+                language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.5/i18n/es-ES.json',
+                },
+            });
         },
         error: function (error) {
             console.error('Error al obtener los datos iniciales:', error);
         }
     });
+
+    $('#cliente').select2();
 
     $('#all-btn').on('click', function() {
         $('#productos-table tbody tr').show(); // Mostrar todos los productos
@@ -157,4 +164,5 @@ $(document).ready(function() {
         window.location.reload();
         // Aquí podríamos resetear el formulario o redirigir a otra página
     });
+
 });
