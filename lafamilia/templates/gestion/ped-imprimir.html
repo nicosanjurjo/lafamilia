@@ -21,15 +21,17 @@
 
     {% for pedido in pedidos %}
     <div class="pedido">
-        <h1>Detalles del Pedido #{{ pedido.id }}</h1>
-        
+        <h4 style="text-align:center">Distribuidora La Familia - 2657 635398</h4>
+        <hr>
+        <H2 style="border-bottom:none; margin-bottom:5px; margin-top:25px">Detalles del Pedido #{{ pedido.id }}</H2>    
         <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</p>
         <p><strong>Direccion:</strong> {{ pedido.cliente.direccion }}</p>
+        <p><strong>Zona:</strong> {{ pedido.cliente.zona }}</p>
         <p><strong>Vendedor:</strong> {{ pedido.vendedor.nombre }}</p>
         <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
         <br>
-        <h2>Productos</h2>
-        <ul>
+        PRODUCTOS:
+        <ul style="margin-bottom:28px; margin-top: 10px">
             {% for item in pedido.pedidoproducto_set.all %}
                 <li>{{ item.producto.nombre }} - {{ item.producto.marca }} | Precio unitario: ${{ item.precio_unitario }} - Cantidad: {{ item.cantidad }} </li>
             {% endfor %}
