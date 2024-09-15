@@ -29,9 +29,8 @@ $(document).ready(function() {
                 `);
             });
             $('#productos-table').DataTable({
-                language: {
-                url: '//cdn.datatables.net/plug-ins/2.1.5/i18n/es-ES.json',
-                },
+                destroy: true,  // Esto destruye cualquier instancia anterior antes de volver a inicializar
+                language: { url: '//cdn.datatables.net/plug-ins/2.1.5/i18n/es-ES.json' }
             });
         },
         error: function (error) {
@@ -42,13 +41,14 @@ $(document).ready(function() {
     $('#cliente').select2();
 
     $('#all-btn').on('click', function() {
-        $('#productos-table tbody tr').show(); // Mostrar todos los productos
+        var table = $('#productos-table').DataTable();
+        table.search('').columns().search('').draw();
     });
 
     $('#marca-buttons').on('click', '.marca-btn', function() {
         var selectedMarca = $(this).attr('data-marca');
-        $('#productos-table tbody tr').hide(); // Ocultar todos los productos
-        $('#productos-table tbody tr[data-marca="' + selectedMarca + '"]').show(); // Mostrar solo los productos de la marca seleccionada
+        var table = $('#productos-table').DataTable();
+        table.column(1).search(selectedMarca).draw(); // Asume que la marca está en la segunda columna (índice 1)
     });
 
     // Manejar el evento de click en los botones "Agregar" en la tabla de productos
