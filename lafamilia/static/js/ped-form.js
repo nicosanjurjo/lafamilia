@@ -30,7 +30,6 @@ $(document).ready(function() {
             });
             $('#productos-table').DataTable({
                 destroy: true,  // Esto destruye cualquier instancia anterior antes de volver a inicializar
-                language: { url: '//cdn.datatables.net/plug-ins/2.1.5/i18n/es-ES.json' }
             });
         },
         error: function (error) {
