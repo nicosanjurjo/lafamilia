@@ -118,6 +118,8 @@ $(document).ready(function() {
         let pedidoData = {
             vendedor_id: $('#vendedor').val(),
             cliente_id: $('#cliente').val(),
+            diareparto: $('#diareparto').val(),  // Añadir día de reparto
+            observaciones: $('#observaciones').val(),  // Añadir observaciones
             productos: [],
             total: parseFloat($('#total-pedido').text())
         };

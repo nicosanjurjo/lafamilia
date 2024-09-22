@@ -3,6 +3,9 @@
 {% block css %}
 <link rel="stylesheet" type="text/css" href={% static "css/ped.css" %} />{% endblock %}
 {% block content %}
+
+<div class="contenedor "id="total-suma" style="margin-bottom: 10px;"><span id="suma-total">0</span></div>
+
 <div id="contenedor">
     <div class="superior">
         <a class="btn btn-primary alta" href="{% url 'Ped-Form-Ges' %}" role="button">Crear</a>

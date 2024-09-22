@@ -36,15 +36,17 @@ def crear_pedido(request):
         try:
             data = json.loads(request.body)
 
-            if not data.get('cliente_id') or not data.get('productos'):
-                return JsonResponse({'error': 'Faltan datos obligatorios (cliente o productos)'}, status=400)
+            if not data.get('cliente_id') or not data.get('productos') or not data.get('diareparto'):
+                return JsonResponse({'error': 'Faltan datos obligatorios (cliente, productos, o dia de reparto)'}, status=400)
 
             cliente = Cliente.objects.get(id=data['cliente_id'])
             vendedor = Vendedor.objects.get(id=data['vendedor_id']) if data.get('vendedor_id') else None
+            diareparto = data.get('diareparto')
+            observaciones = data.get('observaciones')
             total = data['total']
 
             # Crear el pedido
-            pedido = Pedido(vendedor=vendedor, cliente=cliente, total=total)
+            pedido = Pedido(vendedor=vendedor, cliente=cliente, diareparto=diareparto, observaciones=observaciones, total=total)
             pedido.save()
 
             errores_stock = []

@@ -28,10 +28,22 @@
         <div class="form-group">
             <label for="cliente">Cliente</label>
             <select id="cliente" name="cliente" class="form-control">
+                <option value="">-- Seleccionar cliente --</option>
             </select>
             <a href="{% url "Cli-Add" %}">Alta de cliente</a>
         </div>
-
+        <br>
+        <div class="form-group">
+            <label for="diareparto">Día de reparto</label>
+            <select id="diareparto" name="diareparto" class="form-control">
+                <option value="">-- Seleccionar día de reparto --</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Viernes">Viernes</option>
+                <option value="La Toma">La Toma</option>
+            </select>
+        </div>
+        <hr>
         <!-- Botones de Filtrado por Marca -->
         <div class="btn-group-scroll" role="group" id="marca-buttons">
             <button type="button" class="btn btn-secondary" id="all-btn">Todas</button>
@@ -80,6 +92,11 @@
             </tbody>
         </table>
 
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" class="form-control" rows="3"></textarea>
+        </div>
+        <hr>
         <!-- Total del Pedido -->
         <h4>Total del Pedido: $<span id="total-pedido">0</span></h4>
         <button type="button" class="btn btn-primary" id="finalizar-pedido">Confirmar Pedido</button>

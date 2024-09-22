@@ -19,23 +19,33 @@ class Vendedor(models.Model):
         return self.nombre
 
 class Cliente(models.Model):
-    nombre=models.CharField(max_length=30)
-    zona=models.CharField(max_length=30)
-    direccion=models.CharField(max_length=30)
-    telefono=models.IntegerField(null=True)
-    
+    nombre = models.CharField(max_length=30)
+    direccion = models.CharField(max_length=30)
+    telefono = models.IntegerField(null=True)
+
     def __str__(self):
         return self.nombre
-    
+
+
 class Pedido(models.Model):
+    DIAS_REPARTO = [
+        ('Lunes', 'Lunes'),
+        ('Miércoles', 'Miércoles'),
+        ('Viernes', 'Viernes'),
+        ('La Toma', 'La Toma'),
+    ]
+    
     fecha = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=10, decimal_places=2)
+    total = models.IntegerField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE)
     productos = models.ManyToManyField(Producto, through='PedidoProducto')
+    diareparto = models.CharField(max_length=10, choices=DIAS_REPARTO, blank=True, null=True)
+    observaciones = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Pedido #{self.id} - {self.cliente.nombre}"
+
 
 class PedidoProducto(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
