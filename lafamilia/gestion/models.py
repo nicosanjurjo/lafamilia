@@ -32,7 +32,7 @@ class Pedido(models.Model):
         ('Lunes', 'Lunes'),
         ('Miércoles', 'Miércoles'),
         ('Viernes', 'Viernes'),
-        ('La Toma', 'La Toma'),
+        ('Sábado', 'Sábado'),
     ]
     
     fecha = models.DateTimeField(auto_now_add=True)
