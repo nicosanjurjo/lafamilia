@@ -4,11 +4,6 @@
     margin-bottom: 15px;
 }
 
-.alta{
-    height: 40px;
-    margin-top: 20px;
-}
-
 .busqueda button[type="submit"] {
     width: 74%;
     margin-top: 10px;
@@ -40,4 +35,18 @@
 
 #pedido-table .cantidad-input {
     width: 40px;
+}
+
+.superior .btn {
+    height: 40px; /* Establece una altura fija */
+    display: inline-flex; /* Asegura que el contenido se centre verticalmente */
+    align-items: center; /* Centra verticalmente el contenido */
+    justify-content: center; /* Centra horizontalmente el contenido */
+    padding: 0 20px; /* Espaciado interno opcional */
+    line-height: 1.5; /* Altura de línea para texto */
+}
+
+/* Opcional: Para hacer que la clase "alta" se vea diferente */
+.superior .btn.alta {
+    margin-right: 10px; /* Espacio entre los botones */
 }

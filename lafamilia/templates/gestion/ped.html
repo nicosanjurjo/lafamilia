@@ -7,7 +7,7 @@
 <div id="contenedor">
     <div class="superior">
         <a class="btn btn-primary alta" href="{% url 'Ped-Form-Ges' %}" role="button">Crear</a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filtroModal">Búsqueda avanzada</button>
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#filtroModal">Búsqueda avanzada</button>
     </div>
 
     <table id="myTable" class="display" style="width:100%">
@@ -46,7 +46,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="filtroModalLabel">Filtrar pedidos</h5>
+                <h5 class="modal-title" id="filtroModalLabel">Búsqueda avanzada</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -58,7 +58,7 @@
                             <option value="{{ vendedor.id }}">{{ vendedor.nombre }}</option>
                         {% endfor %}
                     </select>
-
+                    <br><br>
                     <label for="cliente">Cliente:</label>
                     <select id="cliente" name="cliente">
                         <option value="">Todos los clientes</option>
@@ -66,9 +66,9 @@
                             <option value="{{ cliente.id }}">{{ cliente.nombre }}</option>
                         {% endfor %}
                     </select>
-
+                    <br><br>
                     <!-- Select para los días de reparto -->
-                    <label for="dia-reparto">Día de Reparto:</label>
+                    <label for="dia-reparto">Día de reparto:</label>
                     <select id="dia-reparto" name="dia_reparto">
                         <option value="">Todos los días de reparto</option>
                         <option value="Lunes">Lunes</option>
@@ -76,13 +76,13 @@
                         <option value="Viernes">Viernes</option>
                         <option value="Sábado">Sábado</option>
                     </select>
-
-                    <label for="fecha-inicio">Desde:</label>
-                    <input type="date" id="fecha-inicio" name="fecha_inicio" required>
-
-                    <label for="fecha-fin">Hasta:</label>
-                    <input type="date" id="fecha-fin" name="fecha_fin">
-
+                    <br><br>
+                    <p><label for="fecha-inicio">Desde:</label>
+                    <input type="date" id="fecha-inicio" name="fecha_inicio" required></p>
+            
+                    <p><label for="fecha-fin">Hasta:</label>
+                    <input type="date" id="fecha-fin" name="fecha_fin"></p>
+                    <br>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Generar remitos</button>
