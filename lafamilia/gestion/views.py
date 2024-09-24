@@ -101,7 +101,7 @@ def pedidos_por_fecha(request):
     fecha_fin_str = request.GET.get('fecha_fin')
     vendedor_id = request.GET.get('vendedor')
     cliente_id = request.GET.get('cliente')
-    dia_reparto = request.GET.get('dia_reparto')
+    diareparto = request.GET.get('diareparto')
     
     # Filtros básicos de fecha
     if fecha_inicio_str:
@@ -134,8 +134,8 @@ def pedidos_por_fecha(request):
         pedidos = pedidos.filter(cliente_id=cliente_id)
     
     # Filtro por día de reparto
-    if dia_reparto:
-        pedidos = pedidos.filter(dia_reparto=dia_reparto)
+    if diareparto:
+        pedidos = pedidos.filter(diareparto=diareparto)
     
     # Renderizar la plantilla con los pedidos filtrados
     return render(request, 'gestion/ped-imprimir.html', {'pedidos': pedidos})
@@ -146,7 +146,7 @@ def pedidos_liquidacion(request):
     fecha_fin_str = request.GET.get('fecha_fin')
     vendedor_id = request.GET.get('vendedor')
     cliente_id = request.GET.get('cliente')
-    dia_reparto = request.GET.get('dia_reparto')
+    diareparto = request.GET.get('diareparto')
     
     # Filtros básicos de fecha
     if fecha_inicio_str:
@@ -182,8 +182,8 @@ def pedidos_liquidacion(request):
         pedidos = pedidos.filter(cliente_id=cliente_id)
     
     # Filtro por día de reparto
-    if dia_reparto:
-        pedidos = pedidos.filter(dia_reparto=dia_reparto)
+    if diareparto:
+        pedidos = pedidos.filter(diareparto=diareparto)
     
     # Calcular el total de todos los pedidos filtrados
     total_pedidos = sum(pedido.total for pedido in pedidos)

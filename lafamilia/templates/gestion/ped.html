@@ -50,7 +50,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="filtroForm" method="GET" action="{% url 'PedidosPorFecha' %}">
+                <form id="filtroForm" method="GET">
                     <label for="vendedor">Vendedor:</label>
                     <select id="vendedor" name="vendedor">
                         <option value="">Todos los vendedores</option>
@@ -68,8 +68,8 @@
                     </select>
                     <br><br>
                     <!-- Select para los días de reparto -->
-                    <label for="dia-reparto">Día de reparto:</label>
-                    <select id="dia-reparto" name="dia_reparto">
+                    <label for="diareparto">Día de reparto:</label>
+                    <select id="diareparto" name="diareparto">
                         <option value="">Todos los días de reparto</option>
                         <option value="Lunes">Lunes</option>
                         <option value="Miércoles">Miércoles</option>
@@ -85,8 +85,8 @@
                     <br>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Generar remitos</button>
-                        <button class="btn btn-info" id="generarliquidacion" data-url="{% url 'PedidosLiquidacion' %}">Generar liquidación</button>
+                        <button class="btn btn-primary" id="remitos" data-url="{% url 'PedidosPorFecha' %}">Generar remitos</button>
+                        <button class="btn btn-info" id="liquidacion" data-url="{% url 'PedidosLiquidacion' %}">Generar liquidación</button>
                     </div>
                 </form>
             </div>
