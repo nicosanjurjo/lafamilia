@@ -26,7 +26,7 @@
         <H2 style="border-bottom:none; margin-bottom:5px; margin-top:25px">Detalles del Pedido #{{ pedido.id }}</H2>    
         <p><strong>Cliente:</strong> {{ pedido.cliente.nombre }}</p>
         <p><strong>Direccion:</strong> {{ pedido.cliente.direccion }}</p>
-        <p><strong>Zona:</strong> {{ pedido.cliente.zona }}</p>
+        <p><strong>Dia de reparto:</strong> {{ pedido.diareparto }}</p>
         <p><strong>Vendedor:</strong> {{ pedido.vendedor.nombre }}</p>
         <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
         <br>
@@ -37,6 +37,10 @@
             {% endfor %}
         </ul>
         
+        {% if pedido.observaciones %}
+        <p>OBSERVACIONES: {{ pedido.observaciones }}</p>
+        {% endif %}
+
         <h3>Total del Pedido: ${{ pedido.total }}</h3>
     </div>
     {% endfor %}

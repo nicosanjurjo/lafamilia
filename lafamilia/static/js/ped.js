@@ -1,28 +1,7 @@
 $(document).ready(function() {
 
-    const table = $('#myTable').DataTable({
-        order: [[0, 'desc']]
-    });
-
-    function actualizarTotal() {
-        let sumaTotal = 0;
-        table.rows({ search: 'applied' }).every(function() {
-            const data = this.data();
-            const total = parseFloat(data[4].replace(/\$/g, '').replace(/,/g, '').trim()); // Elimina el símbolo $ y los comas
-            if (!isNaN(total)) {
-                sumaTotal += total; // Solo sumar si es un número válido
-            }
-        });
-
-        // Obtener el texto del filtro
-        const filtroTexto = $('#myTable_filter input').val();
-        $('#suma-total').text(`Total con el filtro '${filtroTexto}': $ ${sumaTotal.toLocaleString()}`); // Mostrar total con separador de miles
-    }
-
-    // Actualizar el total al cargar y cada vez que se realice una búsqueda
-    table.on('draw', function() {
-        actualizarTotal();
-    });
+    $('#myTable').DataTable({
+        order: [[0, 'desc']] });
 
     let pedidoId;  // Variable para almacenar el ID del pedido que se está editando
 
@@ -181,5 +160,10 @@ $(document).ready(function() {
             }
         });
     }
+
+    $('#generarliquidacion').on('click', function() {
+        var url = $(this).data('url');  // Obtener la URL desde el atributo data-url
+        $('#filtroForm').attr('action', url).submit();
+    });
 
 });

@@ -77,7 +77,9 @@ class ClienteDeleteView(DeleteView):
 
 def lista_pedidos(request):
     pedidos = Pedido.objects.all().order_by('-fecha')
-    return render(request, 'gestion/ped.html', {'pedidos': pedidos})
+    vendedores = Vendedor.objects.all()
+    clientes = Cliente.objects.all()
+    return render(request, 'gestion/ped.html', {'pedidos': pedidos, 'vendedores': vendedores, 'clientes': clientes})
 
 def ver_pedido(request, pedido_id):
     pedido = get_object_or_404(Pedido, id=pedido_id)
@@ -94,20 +96,108 @@ def form_pedido_gestion(request):
     return render(request, 'gestion/ped-form.html')
 
 def pedidos_por_fecha(request):
+    # Obtener los datos del formulario
     fecha_inicio_str = request.GET.get('fecha_inicio')
     fecha_fin_str = request.GET.get('fecha_fin')
-
+    vendedor_id = request.GET.get('vendedor')
+    cliente_id = request.GET.get('cliente')
+    dia_reparto = request.GET.get('dia_reparto')
+    
+    # Filtros básicos de fecha
     if fecha_inicio_str:
         fecha_inicio = timezone.make_aware(datetime.strptime(fecha_inicio_str, '%Y-%m-%d'))
+    else:
+        fecha_inicio = None
+        
     if fecha_fin_str:
-        fecha_fin = timezone.make_aware(datetime.strptime(fecha_fin_str, '%Y-%m-%d'))
-        fecha_fin = fecha_fin + timedelta(days=1) - timedelta(seconds=1)  # Extender hasta el final del día
+        fecha_fin = timezone.make_aware(datetime.strptime(fecha_fin_str, '%Y-%m-%d')) + timedelta(days=1) - timedelta(seconds=1)
+    else:
+        fecha_fin = None
 
-    pedidos = Pedido.objects.filter(fecha__range=[fecha_inicio, fecha_fin])
-    print(fecha_fin, fecha_inicio)
-    print(pedidos)
+    # Base de la consulta de pedidos
+    pedidos = Pedido.objects.all()
     
+    # Filtrar por rango de fechas si las fechas están disponibles
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(fecha__range=[fecha_inicio, fecha_fin])
+    elif fecha_inicio:
+        pedidos = pedidos.filter(fecha__gte=fecha_inicio)
+    elif fecha_fin:
+        pedidos = pedidos.filter(fecha__lte=fecha_fin)
+
+    # Filtro por vendedor
+    if vendedor_id:
+        pedidos = pedidos.filter(vendedor_id=vendedor_id)
+    
+    # Filtro por cliente
+    if cliente_id:
+        pedidos = pedidos.filter(cliente_id=cliente_id)
+    
+    # Filtro por día de reparto
+    if dia_reparto:
+        pedidos = pedidos.filter(dia_reparto=dia_reparto)
+    
+    # Renderizar la plantilla con los pedidos filtrados
     return render(request, 'gestion/ped-imprimir.html', {'pedidos': pedidos})
+
+def pedidos_liquidacion(request):
+    # Obtener los datos del formulario
+    fecha_inicio_str = request.GET.get('fecha_inicio')
+    fecha_fin_str = request.GET.get('fecha_fin')
+    vendedor_id = request.GET.get('vendedor')
+    cliente_id = request.GET.get('cliente')
+    dia_reparto = request.GET.get('dia_reparto')
+    
+    # Filtros básicos de fecha
+    if fecha_inicio_str:
+        fecha_inicio = timezone.make_aware(datetime.strptime(fecha_inicio_str, '%Y-%m-%d'))
+    else:
+        fecha_inicio = None
+        
+    if fecha_fin_str:
+        fecha_fin = timezone.make_aware(datetime.strptime(fecha_fin_str, '%Y-%m-%d')) + timedelta(days=1) - timedelta(seconds=1)
+    else:
+        fecha_fin = None
+
+    # Base de la consulta de pedidos
+    pedidos = Pedido.objects.all()
+    
+    # Filtrar por rango de fechas si las fechas están disponibles
+    if fecha_inicio and fecha_fin:
+        pedidos = pedidos.filter(fecha__range=[fecha_inicio, fecha_fin])
+    elif fecha_inicio:
+        pedidos = pedidos.filter(fecha__gte=fecha_inicio)
+    elif fecha_fin:
+        pedidos = pedidos.filter(fecha__lte=fecha_fin)
+
+    # Filtro por vendedor
+    if vendedor_id:
+        pedidos = pedidos.filter(vendedor_id=vendedor_id)
+        vendedores = Vendedor.objects.filter(id=vendedor_id).values_list('nombre', flat=True)
+    else:
+        vendedores = Vendedor.objects.all().values_list('nombre', flat=True)
+    
+    # Filtro por cliente
+    if cliente_id:
+        pedidos = pedidos.filter(cliente_id=cliente_id)
+    
+    # Filtro por día de reparto
+    if dia_reparto:
+        pedidos = pedidos.filter(dia_reparto=dia_reparto)
+    
+    # Calcular el total de todos los pedidos filtrados
+    total_pedidos = sum(pedido.total for pedido in pedidos)
+
+    # Renderizar la plantilla con los pedidos filtrados, fechas, vendedores y total
+    contexto = {
+        'pedidos': pedidos,
+        'fecha_inicio': fecha_inicio_str,
+        'fecha_fin': fecha_fin_str,
+        'vendedores': vendedores,
+        'total_pedidos': total_pedidos,
+    }
+
+    return render(request, 'gestion/ped-liquidacion.html', contexto)
 
 
 @csrf_exempt

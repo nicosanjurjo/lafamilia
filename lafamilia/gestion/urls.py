@@ -22,6 +22,7 @@ urlpatterns = [
     path('pedido_especial/api/obtener-datos-iniciales/', obtener_datos_iniciales, name='obtener-datos-iniciales'),
     path('pedido_especial/', form_pedido_gestion, name='Ped-Form-Ges'),
     path('pedidos/imprimir/', views.pedidos_por_fecha, name='PedidosPorFecha'),
+    path('pedidos/liquidacion/', views.pedidos_liquidacion, name='PedidosLiquidacion'),
     path('pedidos/actualizar/<int:pedido_id>/', actualizar_pedido, name='actualizar_pedido')
 
 ]
