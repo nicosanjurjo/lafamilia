@@ -36,6 +36,7 @@ class Pedido(models.Model):
     ]
     
     fecha = models.DateTimeField(auto_now_add=True)
+    modificado = models.DateTimeField(auto_now=True, null=True)
     total = models.IntegerField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE)
@@ -52,6 +53,7 @@ class PedidoProducto(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.IntegerField()
+    agregado = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         unique_together = ('pedido', 'producto')

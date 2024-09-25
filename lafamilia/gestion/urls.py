@@ -19,10 +19,10 @@ urlpatterns = [
     path('clientes/<int:pk>/delete/', ClienteDeleteView.as_view(), name='Cli-Delete'),  # Para eliminar productos
     path('', lista_pedidos, name='lista_pedidos'),
     path('pedido/<int:pedido_id>/', ver_pedido, name='ver_pedido'),
+    path('pedido/editar/<int:pedido_id>', agregar_productos_form, name='agregar_productos_form'),
+    path('pedido/modificar/<int:pedido_id>/', actualizar_pedido, name='agregar_productos'),
     path('pedido_especial/api/obtener-datos-iniciales/', obtener_datos_iniciales, name='obtener-datos-iniciales'),
     path('pedido_especial/', form_pedido_gestion, name='Ped-Form-Ges'),
     path('pedidos/imprimir/', views.pedidos_por_fecha, name='PedidosPorFecha'),
     path('pedidos/liquidacion/', views.pedidos_liquidacion, name='PedidosLiquidacion'),
-    path('pedidos/actualizar/<int:pedido_id>/', actualizar_pedido, name='actualizar_pedido')
-
 ]

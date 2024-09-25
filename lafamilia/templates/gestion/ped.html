@@ -13,7 +13,7 @@
     <table id="myTable" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>ID Pedido</th>
+                <th>Pedido #</th>
                 <th>Cliente</th>
                 <th>Vendedor</th>
                 <th>Fecha</th>
@@ -32,7 +32,7 @@
                 <td>
                     <!-- Aquí se agregarán los enlaces para acciones -->
                     <a href="{% url 'ver_pedido' pedido.id %}" class="btn btn-info btn-sm">Ver</a>
-                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#actualizarModal" onclick="">Editar</button>
+                    <a href="{% url 'agregar_productos_form' pedido.id %}" class="btn btn-warning">Editar</button>
                     <!-- Acción de agregar productos y generar PDF -->
                 </td>
             </tr>
@@ -93,72 +93,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="actualizarModal" tabindex="-1" aria-labelledby="actualizarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="actualizarModalLabel">Agregar productos al pedido</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Botones de Filtrado por Marca -->
-          <div class="btn-group-scroll" role="group" id="marca-buttons">
-              <button type="button" class="btn btn-secondary" id="all-btn">Todas</button>
-              {% for marca in marcas %}
-                  <button type="button" class="btn btn-secondary marca-btn" data-filter="{{ marca }}">{{ marca }}</button>
-              {% endfor %}
-          </div>
-  
-          <!-- Tabla de Productos -->
-          <table id="productos-table" class="table">
-              <thead>
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Precio</th>
-                      <th>Agregar</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for producto in productos %}
-                      <tr data-marca="{{ producto.marca }}">
-                          <td>{{ producto.marca }}</td>
-                          <td>{{ producto.nombre }}</td>
-                          <td>{{ producto.precio }}</td>
-                          <td><button type="button" class="btn btn-success add-producto" data-id="{{ producto.id }}">+</button></td>
-                      </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-  
-          <!-- Lista de Productos en el Pedido -->
-          <h3>Productos a agregar</h3>
-          <table id="pedido-table" class="table">
-              <thead>
-                  <tr>
-                      <th>Nombre</th>
-                      <th>Marca</th>
-                      <th>Cantidad</th>
-                      <th>Precio unitario</th>
-                      <th>Precio total</th>
-                      <th>Eliminar</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <!-- Se llenará dinámicamente con jQuery -->
-              </tbody>
-          </table>
-          <h4>Total en productos agregados: $<span id="total-actualizacion">0</span></h4>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" id="actualizar-pedido">Agregar productos</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
 {% endblock %}
 

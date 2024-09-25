@@ -201,6 +201,30 @@ def pedidos_liquidacion(request):
 
 
 @csrf_exempt
+def agregar_productos_form(request, pedido_id):
+    # Obtener el pedido por su ID, o devolver un 404 si no existe
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    
+    # Recoger los datos asociados al pedido
+    cliente = pedido.cliente
+    vendedor = pedido.vendedor
+    fecha = pedido.fecha
+    productos = Producto.objects.all()
+    marcas = list(Producto.objects.values_list('marca', flat=True).distinct())
+
+    # Pasar estos datos al template para renderizar
+    context = {
+        'pedido': pedido,
+        'cliente': cliente,
+        'vendedor': vendedor,
+        'fecha': fecha,
+        'productos': productos,
+        'marcas': marcas
+    }
+    
+    return render(request, 'gestion/ped-editar-form.html', context)
+
+@csrf_exempt
 def actualizar_pedido(request, pedido_id):
     if request.method == 'POST':
         data = json.loads(request.body)
