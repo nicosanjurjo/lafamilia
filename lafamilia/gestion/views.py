@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from .models import Producto, Vendedor, Cliente, Pedido, PedidoProducto
 from .forms import ProductoForm, VendedorForm, ClienteForm
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.contrib import messages
 
 class ProductoListView(ListView):
     model = Producto
@@ -116,6 +117,7 @@ def pedidos_por_fecha(request):
 
     # Base de la consulta de pedidos
     pedidos = Pedido.objects.all()
+    pedidos = pedidos.filter(anulado=False)
     
     # Filtrar por rango de fechas si las fechas están disponibles
     if fecha_inicio and fecha_fin:
@@ -161,6 +163,7 @@ def pedidos_liquidacion(request):
 
     # Base de la consulta de pedidos
     pedidos = Pedido.objects.all()
+    pedidos = pedidos.filter(anulado=False)
     
     # Filtrar por rango de fechas si las fechas están disponibles
     if fecha_inicio and fecha_fin:
@@ -283,3 +286,28 @@ def actualizar_pedido(request, pedido_id):
             return JsonResponse({'error': str(e)}, status=400)
     
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def anular_pedido(request, pedido_id):
+    # Obtener el pedido usando el pedido_id
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+
+    # Verificar si el pedido ya está anulado
+    if pedido.anulado:
+        return JsonResponse({'error': 'El pedido ya está anulado'}, status=400)
+
+    # Marcar el pedido como anulado
+    pedido.anulado = True
+    pedido.save()
+
+    # Obtener todos los productos relacionados con el pedido
+    pedido_productos = PedidoProducto.objects.filter(pedido=pedido)
+
+    # Sumar la cantidad de cada producto al stock
+    for pedido_producto in pedido_productos:
+        producto = pedido_producto.producto
+        producto.stock += pedido_producto.cantidad
+        producto.save()
+
+    # Retornar una respuesta exitosa (puedes redirigir o retornar un JSON si es necesario)
+    return JsonResponse({'success': f'El pedido #{pedido_id} ha sido anulado y el stock ha sido actualizado.'})

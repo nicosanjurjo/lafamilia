@@ -50,3 +50,12 @@
 .superior .btn.alta {
     margin-right: 10px; /* Espacio entre los botones */
 }
+
+.anular {
+    margin-left: 4px;
+}
+
+.anulado {
+    background-color: #ff5765 !important; /* Rojo claro */
+    color: #000000 !important; /* Texto en rojo oscuro */
+}

@@ -19,7 +19,7 @@
     <p><strong>Dia de reparto:</strong> {{ pedido.diareparto }}</p>
     <p><strong>Vendedor:</strong> {{ pedido.vendedor.nombre }}</p>
     <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
-    {% if pedido.modificado != pedido.fecha %}
+    {% if pedido.modificado != pedido.fecha and not pedido.anulado %}
     <p style="margin-bottom:14px; margin-top: 12px"><strong>Se agregaron productos el {{ pedido.modificado }}</strong></p>
     {% endif %}
     <div style="padding: 10px">PRODUCTOS:
@@ -31,8 +31,13 @@
     {% if pedido.observaciones %}
     <p>OBSERVACIONES: {{ pedido.observaciones }}</p>
     {% endif %}
-
-    <h3>Total del Pedido: ${{ pedido.total }}</h3>
+    <h3>
+        {% if pedido.anulado %}
+        <s>Total del pedido: ${{ pedido.total }}</s> <span style=" margin-left: 5px">PEDIDO <span style="color: red"> ANULADO </span> EL {{ pedido.modificado|date:" d/m/y H:i" }} </span>
+        {% else %}
+            Total del pedido: ${{ pedido.total }}
+        {% endif %}
+    </h3>
 
     <img src={% static "img/lafam1.png" %} alt="Distribuidora La Familia" class="watermark">
     

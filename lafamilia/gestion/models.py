@@ -43,6 +43,7 @@ class Pedido(models.Model):
     productos = models.ManyToManyField(Producto, through='PedidoProducto')
     diareparto = models.CharField(max_length=10, choices=DIAS_REPARTO, blank=True, null=True)
     observaciones = models.TextField(blank=True, null=True)
+    anulado = models.BooleanField(blank=False, null=False, default=False)
 
     def __str__(self):
         return f"Pedido #{self.id} - {self.cliente.nombre}"

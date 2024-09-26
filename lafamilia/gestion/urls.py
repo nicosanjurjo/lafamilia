@@ -21,6 +21,7 @@ urlpatterns = [
     path('pedido/<int:pedido_id>/', ver_pedido, name='ver_pedido'),
     path('pedido/editar/<int:pedido_id>', agregar_productos_form, name='agregar_productos_form'),
     path('pedido/modificar/<int:pedido_id>/', actualizar_pedido, name='agregar_productos'),
+    path('anular_pedido/<int:pedido_id>/', anular_pedido, name='anular_pedido'),
     path('pedido_especial/api/obtener-datos-iniciales/', obtener_datos_iniciales, name='obtener-datos-iniciales'),
     path('pedido_especial/', form_pedido_gestion, name='Ped-Form-Ges'),
     path('pedidos/imprimir/', views.pedidos_por_fecha, name='PedidosPorFecha'),
