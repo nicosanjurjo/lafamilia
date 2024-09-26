@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
+    position: relative;
 }
 
 /* Título principal */
@@ -52,19 +53,24 @@ h3 {
     margin-top: 20px;
 }
 
-/* Botones de acciones */
-a {
-    display: inline-block;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin-right: 10px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+body {
+    position: relative;
 }
 
-a:hover {
-    background-color: #0056b3;
+.watermark {
+    position: fixed;
+    z-index: -1; /* Asegúrate de que la imagen esté detrás del contenido */
+    width: 60%; /* Ajusta el tamaño según sea necesario */
+    height: 102%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra la imagen */
+    opacity: 0.15; /* Haces que la imagen se vea como una marca de agua */
+    pointer-events: none; /* Asegúrate de que la imagen no interfiera con el contenido interactivo */
+}
+
+@media print {
+    .pedido {
+        page-break-after: always; /* Hace que cada pedido se imprima en una nueva página */
+    }
 }

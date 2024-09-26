@@ -19,19 +19,22 @@
     <p><strong>Dia de reparto:</strong> {{ pedido.diareparto }}</p>
     <p><strong>Vendedor:</strong> {{ pedido.vendedor.nombre }}</p>
     <p><strong>Fecha:</strong> {{ pedido.fecha }}</p>
-    <br>
-    PRODUCTOS:
+    {% if pedido.modificado != pedido.fecha %}
+    <p style="margin-bottom:14px; margin-top: 12px"><strong>Se agregaron productos el {{ pedido.modificado }}</strong></p>
+    {% endif %}
+    <div style="padding: 10px">PRODUCTOS:
     <ul style="margin-bottom:28px; margin-top: 10px">
         {% for item in pedido.pedidoproducto_set.all %}
             <li>{{ item.producto.nombre }} - {{ item.producto.marca }} | Precio unitario: ${{ item.precio_unitario }} - Cantidad: {{ item.cantidad }} </li>
         {% endfor %}
-    </ul>
-
+    </ul></div>
     {% if pedido.observaciones %}
     <p>OBSERVACIONES: {{ pedido.observaciones }}</p>
     {% endif %}
-    
+
     <h3>Total del Pedido: ${{ pedido.total }}</h3>
+
+    <img src={% static "img/lafam1.png" %} alt="Distribuidora La Familia" class="watermark">
     
 </body>
 </html>

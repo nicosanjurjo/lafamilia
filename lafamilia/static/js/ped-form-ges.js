@@ -28,20 +28,26 @@ $(document).ready(function() {
                     </tr>
                 `);
             });
+            $('#productos-table').DataTable({
+                destroy: true,  // Esto destruye cualquier instancia anterior antes de volver a inicializar
+            });
         },
         error: function (error) {
             console.error('Error al obtener los datos iniciales:', error);
         }
     });
 
+    $('#cliente').select2();
+
     $('#all-btn').on('click', function() {
-        $('#productos-table tbody tr').show(); // Mostrar todos los productos
+        var table = $('#productos-table').DataTable();
+        table.search('').columns().search('').draw();
     });
 
     $('#marca-buttons').on('click', '.marca-btn', function() {
         var selectedMarca = $(this).attr('data-marca');
-        $('#productos-table tbody tr').hide(); // Ocultar todos los productos
-        $('#productos-table tbody tr[data-marca="' + selectedMarca + '"]').show(); // Mostrar solo los productos de la marca seleccionada
+        var table = $('#productos-table').DataTable();
+        table.column(1).search(selectedMarca).draw(); // Asume que la marca está en la segunda columna (índice 1)
     });
 
     // Manejar el evento de click en los botones "Agregar" en la tabla de productos
@@ -110,6 +116,8 @@ $(document).ready(function() {
         let pedidoData = {
             vendedor_id: $('#vendedor').val(),
             cliente_id: $('#cliente').val(),
+            diareparto: $('#diareparto').val(),  // Añadir día de reparto
+            observaciones: $('#observaciones').val(),  // Añadir observaciones
             productos: [],
             total: parseFloat($('#total-pedido').text())
         };

@@ -27,7 +27,7 @@
     transform: translateX(-50%);
     width: 0%;
     height: 2px;
-    background-color: #de0404d4;
+    background-color: #f4b404;
     visibility: hidden;
     transition: 0.3s ease-in-out;
 }
@@ -38,9 +38,15 @@
     visibility: visible;
 }
 
+img {
+    width: 150px;
+    height: 150px;
+}
+
+
 body {
     position: relative;
-    background-color: rgba(78, 11, 11, 0.6);
+    background-color:  #bb8e2d ;
     margin: 5px;
     min-height: 100vh;
 }
@@ -50,19 +56,18 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: rgb(255, 111, 111);
+    background-color: #f4b404;
     text-align: center;
 
 }
 
-.contenedor {
-    margin-top: 20px;
+h2 {
     margin-left: 10px;
-    margin-right: 10px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.alta {
+    margin-bottom: 15px;
 }
 
 #contenedor {
@@ -73,6 +78,8 @@ footer {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    padding: 10px;
 }
 
 #contenedor_formulario {
@@ -80,12 +87,6 @@ footer {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Asegúrate de que el contenedor principal sea flexible */
-#contenedor {
-    overflow-x: auto;
-    padding: 10px;
 }
 
 .container-fluid {
