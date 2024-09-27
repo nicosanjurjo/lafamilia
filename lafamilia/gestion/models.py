@@ -36,7 +36,8 @@ class Pedido(models.Model):
     ]
     
     fecha = models.DateTimeField(auto_now_add=True)
-    modificado = models.DateTimeField(auto_now=True, null=True)
+    modificado = models.BooleanField(default=False, blank=True, null=True)
+    fecha_modificacion = models.DateTimeField(auto_now=True, null=True)
     total = models.IntegerField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     vendedor = models.ForeignKey(Vendedor, on_delete=models.CASCADE)

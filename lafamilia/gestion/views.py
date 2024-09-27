@@ -279,6 +279,7 @@ def actualizar_pedido(request, pedido_id):
                 return JsonResponse({'errors': errores_stock}, status=400)
 
             # Actualizar el total del pedido
+            pedido.modificado=True
             pedido.save()
 
             return JsonResponse({'message': 'Pedido actualizado exitosamente'}, status=200)

@@ -1,8 +1,6 @@
 $(document).ready(function() {
 
     let pedidoId = parseInt($('#pedidoid').text());
-    console.log('hola')
-    console.log(pedidoId);
 
     $('#productos-table').DataTable();
 
@@ -77,7 +75,6 @@ $(document).ready(function() {
     }
 
     $('#finalizar-pedido').on('click', function() {
-        console.log(pedidoId)
         let actualizacionData = {
             pedido_id: pedidoId,  // Incluir el ID del pedido
             productos: [],
@@ -98,7 +95,6 @@ $(document).ready(function() {
             }
         });
 
-        console.log('Datos para enviar al backend:', actualizacionData);
         enviarActualizacionAlBackend(actualizacionData);
     });
 
@@ -110,7 +106,7 @@ $(document).ready(function() {
             contentType: 'application/json',
             success: function(response) {
                 alert('Pedido actualizado exitosamente');
-                window.location.reload();
+                window.location.href='/gestion/'
             },
             error: function(xhr) {
                 console.error('Error al actualizar el pedido:', xhr);
